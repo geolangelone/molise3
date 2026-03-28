@@ -47,7 +47,7 @@
   }).addTo(map);
 
   // CARICAMENTO GEOJSON REALE
-  fetch('assets/data/lotti.json')
+  fetch('assets/data/11lotti.json')
     .then(res => res.json())
     .then(geojsonData => {
 
