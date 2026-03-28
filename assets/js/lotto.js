@@ -39,32 +39,56 @@
     plannedEl.appendChild(li);
   });
 
+  // MAPPA
   const map = L.map('lotMap').setView(data.center, 10);
+
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
   }).addTo(map);
 
-  const polygon = L.polygon(data.polygon, {
-    color: data.color,
-    weight: 3,
-    fillColor: data.color,
-    fillOpacity: 0.18
-  }).addTo(map);
-  map.fitBounds(polygon.getBounds(), { padding: [20, 20] });
+  // CARICAMENTO GEOJSON REALE
+  fetch('assets/data/lotti.json')
+    .then(res => res.json())
+    .then(geojsonData => {
 
-  data.comuni.forEach((comune) => {
-    const marker = L.circleMarker(comune.coords, {
-      radius: 8,
-      color: data.color,
-      fillColor: data.color,
-      fillOpacity: 0.95,
-      weight: 2
-    }).addTo(map);
-    marker.bindPopup(`<strong>${comune.name}</strong><br>Avanzamento: ${comune.progress}%`);
-  });
+      const geoLayer = L.geoJSON(geojsonData, {
 
+        style: function(feature) {
+          return {
+            color: data.color,
+            weight: 2,
+            fillColor: data.color,
+            fillOpacity: 0.25
+          };
+        },
+
+        onEachFeature: function(feature, layer) {
+          let nome = 'Elemento cartografico';
+
+          if (feature.properties) {
+            nome =
+              feature.properties.nome ||
+              feature.properties.NAME ||
+              feature.properties.Comune ||
+              nome;
+          }
+
+          layer.bindPopup(`<strong>${nome}</strong>`);
+        }
+
+      }).addTo(map);
+
+      map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
+
+    })
+    .catch(err => {
+      console.error('Errore caricamento GeoJSON:', err);
+    });
+
+  // GRAFICO
   const colors = ['#174e8c', '#31a3dd', '#2e7d32', '#ef6c00', '#7b1fa2', '#c62828'];
   const ctx = document.getElementById('progressChart');
+
   new Chart(ctx, {
     type: 'pie',
     data: {
@@ -102,4 +126,5 @@
     `;
     legendEl.appendChild(row);
   });
+
 })();
