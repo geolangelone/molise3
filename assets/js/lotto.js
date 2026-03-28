@@ -39,53 +39,55 @@
     plannedEl.appendChild(li);
   });
 
-  // MAPPA
-  const map = L.map('lotMap').setView(data.center, 10);
+  const map = L.map('lotMap', {
+    zoomControl: true,
+    attributionControl: false
+  });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
+  document.getElementById('lotMap').style.background = '#e9e9e9';
 
-  // CARICAMENTO GEOJSON REALE
-  fetch('assets/data/11_lotti.json')
+  const jsonMap = {
+    lotto1: 'assets/data/lotto1_shapes.json',
+    lotto2: 'assets/data/lotto2_shapes.json',
+    lotto3: 'assets/data/lotto3_shapes.json'
+  };
+
+  const jsonFile = jsonMap[key];
+  if (!jsonFile) return;
+
+  fetch(jsonFile)
     .then(res => res.json())
     .then(geojsonData => {
-
       const geoLayer = L.geoJSON(geojsonData, {
-
-        style: function(feature) {
+        style: function () {
           return {
-            color: data.color,
-            weight: 2,
-            fillColor: data.color,
-            fillOpacity: 0.25
+            color: '#5a5a5a',
+            weight: 1,
+            fillColor: '#d8efcc',
+            fillOpacity: 1
           };
         },
-
-        onEachFeature: function(feature, layer) {
+        onEachFeature: function (feature, layer) {
           let nome = 'Elemento cartografico';
-
           if (feature.properties) {
             nome =
               feature.properties.nome ||
               feature.properties.NAME ||
               feature.properties.Comune ||
+              feature.properties.COMUNE ||
+              feature.properties.id ||
               nome;
           }
-
           layer.bindPopup(`<strong>${nome}</strong>`);
         }
-
       }).addTo(map);
 
       map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
-
     })
     .catch(err => {
       console.error('Errore caricamento GeoJSON:', err);
     });
 
-  // GRAFICO
   const colors = ['#174e8c', '#31a3dd', '#2e7d32', '#ef6c00', '#7b1fa2', '#c62828'];
   const ctx = document.getElementById('progressChart');
 
@@ -126,5 +128,4 @@
     `;
     legendEl.appendChild(row);
   });
-
 })();
