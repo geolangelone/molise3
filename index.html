@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portale Monitoraggio Indagini</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-wrap">
+      <div class="brand-badge">PMI</div>
+      <div>
+        <h1>Portale Monitoraggio Indagini</h1>
+        <p class="subtitle">Quadro sintetico dei lotti, delle indagini e dello stato di avanzamento lavori</p>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="lotto1.html">Lotto 1</a>
+      <a href="lotto2.html">Lotto 2</a>
+      <a href="lotto3.html">Lotto 3</a>
+      <a href="download.html">Download</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div>
+        <span class="eyebrow">Dashboard territoriale</span>
+        <h2>Seleziona un lotto direttamente dalla carta</h2>
+        <p>
+          Questa home mostra una carta interattiva con tre aree cliccabili. Ogni lotto apre una pagina dedicata con
+          dettaglio delle indagini disponibili, attività programmate, mappa di sintesi e stato avanzamento lavori per Comune.
+        </p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-metric">
+          <span>Comuni monitorati</span>
+          <strong>12</strong>
+        </div>
+        <div class="hero-metric">
+          <span>Indagini censite</span>
+          <strong>86</strong>
+        </div>
+        <div class="hero-metric">
+          <span>Avanzamento medio</span>
+          <strong>61%</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-card">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Carta generale</span>
+          <h3>Lotti territoriali</h3>
+        </div>
+        <p class="section-note">Clicca su un poligono oppure usa i pulsanti rapidi sotto la mappa.</p>
+      </div>
+      <div id="homeMap" class="map-home"></div>
+      <div class="lot-buttons">
+        <a class="lot-chip lot-1" href="lotto1.html">Apri Lotto 1</a>
+        <a class="lot-chip lot-2" href="lotto2.html">Apri Lotto 2</a>
+        <a class="lot-chip lot-3" href="lotto3.html">Apri Lotto 3</a>
+      </div>
+    </section>
+
+    <section class="cards-grid three-cols">
+      <article class="mini-card">
+        <h4>Lotto 1</h4>
+        <p>Area collinare occidentale con prevalenza di sondaggi, MASW e HVSR in centri urbani e viabilità principale.</p>
+        <a href="lotto1.html">Vai alla scheda</a>
+      </article>
+      <article class="mini-card">
+        <h4>Lotto 2</h4>
+        <p>Ambito centrale con prospezioni a rifrazione, down-hole e integrazioni geofisiche in aree di nuova programmazione.</p>
+        <a href="lotto2.html">Vai alla scheda</a>
+      </article>
+      <article class="mini-card">
+        <h4>Lotto 3</h4>
+        <p>Fascia orientale e costiera con forte componente di monitoraggio evolutivo, verifiche stratigrafiche e rilievi integrati.</p>
+        <a href="lotto3.html">Vai alla scheda</a>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Template dimostrativo statico pronto per pubblicazione su GitHub Pages.</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lotto 2 - Portale Monitoraggio Indagini</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-lotto="lotto2">
+  <header class="site-header">
+    <div class="brand-wrap">
+      <div class="brand-badge">PMI</div>
+      <div>
+        <h1>Lotto 2</h1>
+        <p class="subtitle">Quadro sintetico di indagini, programma attività e stato di avanzamento</p>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="lotto1.html">Lotto 1</a>
+      <a href="lotto2.html" class="active">Lotto 2</a>
+      <a href="lotto3.html">Lotto 3</a>
+      <a href="download.html">Download</a>
+    </nav>
+  </header>
+
+  <main class="dashboard-layout">
+    <aside class="sidebar left-sidebar">
+      <section class="panel">
+        <div class="panel-head">
+          <span class="eyebrow">Sidebar sinistra</span>
+          <h2>Indagini disponibili</h2>
+        </div>
+        <div id="availableInvestigations"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <span class="eyebrow">Programmazione</span>
+          <h2>Indagini programmate</h2>
+        </div>
+        <ul id="plannedInvestigations" class="planned-list"></ul>
+      </section>
+    </aside>
+
+    <section class="map-panel panel">
+      <div class="panel-head">
+        <span class="eyebrow">Carta centrale</span>
+        <h2 id="lotTitle">Mappa del lotto</h2>
+      </div>
+      <div class="lot-summary" id="lotSummary"></div>
+      <div id="lotMap" class="map-lot"></div>
+    </section>
+
+    <aside class="sidebar right-sidebar">
+      <section class="panel">
+        <div class="panel-head">
+          <span class="eyebrow">Avanzamento</span>
+          <h2>Comuni e percentuali</h2>
+        </div>
+        <canvas id="progressChart" height="240"></canvas>
+        <div id="progressLegend" class="progress-legend"></div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <p>Contenuti demo modificabili. Sostituisci facilmente nomi, numeri, comuni e dati di avanzamento.</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/lotto.js"></script>
+</body>
+</html>

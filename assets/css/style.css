@@ -1,0 +1,158 @@
+:root {
+  --bg: #eef3f8;
+  --panel: #ffffff;
+  --line: #d7e0ea;
+  --text: #1a2b3b;
+  --muted: #5d7186;
+  --primary: #174e8c;
+  --primary-soft: #e4eef9;
+  --accent: #31a3dd;
+  --lot1: #2e7d32;
+  --lot2: #ef6c00;
+  --lot3: #7b1fa2;
+  --shadow: 0 14px 40px rgba(23, 78, 140, 0.08);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: Inter, Arial, sans-serif; color: var(--text); background: var(--bg); }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.site-header {
+  background: linear-gradient(135deg, #143c6a, #1d5da7);
+  color: #fff;
+  padding: 20px clamp(16px, 4vw, 40px);
+  box-shadow: var(--shadow);
+}
+.brand-wrap { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.brand-badge {
+  width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center;
+  font-weight: 800; font-size: 1.1rem; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.2);
+}
+.site-header h1 { margin: 0; font-size: clamp(1.5rem, 2vw, 2.2rem); }
+.subtitle { margin: 6px 0 0; color: rgba(255,255,255,.82); }
+.main-nav { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; }
+.main-nav a {
+  color: #fff; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.08);
+}
+.main-nav a.active, .main-nav a:hover { background: #fff; color: var(--primary); text-decoration: none; }
+
+main { padding: clamp(16px, 3vw, 30px); }
+.hero-section {
+  display: grid; grid-template-columns: 1.6fr .9fr; gap: 20px; align-items: stretch; margin-bottom: 20px;
+}
+.hero-section h2 { margin: 8px 0 12px; font-size: clamp(1.8rem, 3vw, 2.6rem); }
+.hero-section p { line-height: 1.65; color: var(--muted); }
+.eyebrow {
+  display: inline-block; font-size: .78rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--accent);
+}
+.hero-card, .content-card, .panel, .mini-card, .download-card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow);
+}
+.hero-card {
+  padding: 22px; display: grid; gap: 14px;
+}
+.hero-metric {
+  padding: 16px; background: var(--primary-soft); border-radius: 16px; border: 1px solid #c9daee;
+}
+.hero-metric span, .section-note { color: var(--muted); }
+.hero-metric strong { display: block; margin-top: 8px; font-size: 2rem; color: var(--primary); }
+
+.content-card { padding: 22px; margin-bottom: 20px; }
+.section-head, .panel-head {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+}
+.section-head h3, .section-head h2, .panel-head h2 { margin: 6px 0 0; }
+.map-home, .map-lot {
+  width: 100%; border-radius: 18px; border: 1px solid var(--line); overflow: hidden;
+}
+.map-home { height: 520px; }
+.map-lot { height: 620px; }
+.lot-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+.lot-chip {
+  display: inline-flex; padding: 12px 18px; border-radius: 999px; color: #fff; font-weight: 700; text-decoration: none;
+}
+.lot-chip:hover { text-decoration: none; opacity: .92; }
+.lot-1 { background: var(--lot1); }
+.lot-2 { background: var(--lot2); }
+.lot-3 { background: var(--lot3); }
+
+.cards-grid.three-cols {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+}
+.mini-card { padding: 20px; }
+.mini-card h4 { margin-top: 0; }
+.mini-card p { color: var(--muted); line-height: 1.55; }
+
+.dashboard-layout {
+  display: grid; grid-template-columns: minmax(270px, 320px) minmax(480px, 1fr) minmax(270px, 320px);
+  gap: 18px; align-items: start;
+}
+.sidebar { display: grid; gap: 18px; }
+.panel { padding: 18px; }
+.list-block + .list-block { margin-top: 14px; }
+.list-block h3 {
+  margin: 0 0 10px; font-size: 1rem; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+}
+.badge-list, .planned-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.badge-list li, .planned-list li, .legend-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px;
+  border-radius: 12px; background: #f7fafd; border: 1px solid #e1ebf5;
+}
+.badge-count {
+  min-width: 34px; height: 34px; border-radius: 999px; display: grid; place-items: center; font-weight: 700;
+  background: var(--primary); color: #fff;
+}
+.planned-list li { align-items: flex-start; flex-direction: column; }
+.planned-list strong { color: var(--primary); }
+.lot-summary {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;
+}
+.summary-card {
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: #f8fbff;
+}
+.summary-card span { display: block; color: var(--muted); font-size: .88rem; }
+.summary-card strong { display: block; margin-top: 8px; font-size: 1.5rem; color: var(--primary); }
+.progress-legend { margin-top: 16px; display: grid; gap: 8px; }
+.legend-left { display: flex; align-items: center; gap: 10px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 999px; }
+
+.download-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+}
+.download-card { padding: 20px; }
+.download-card h3 { margin-top: 0; }
+.download-card p { color: var(--muted); line-height: 1.6; }
+.download-card a {
+  display: inline-block; margin-top: 8px; padding: 10px 14px; border-radius: 12px; background: var(--primary-soft); font-weight: 700;
+}
+.download-card a:hover { text-decoration: none; }
+
+.site-footer {
+  padding: 16px 30px 28px; text-align: center; color: var(--muted);
+}
+
+.leaflet-popup-content-wrapper { border-radius: 14px; }
+.popup-title { margin: 0 0 6px; font-size: 1rem; }
+.popup-link {
+  display: inline-block; margin-top: 8px; padding: 8px 12px; border-radius: 999px; background: var(--primary); color: #fff !important; text-decoration: none;
+}
+
+@media (max-width: 1180px) {
+  .dashboard-layout { grid-template-columns: 1fr; }
+  .map-lot { height: 520px; }
+}
+
+@media (max-width: 900px) {
+  .hero-section, .cards-grid.three-cols, .download-grid, .lot-summary { grid-template-columns: 1fr; }
+  .map-home { height: 420px; }
+}
+
+@media (max-width: 640px) {
+  .site-header, main { padding-left: 14px; padding-right: 14px; }
+  .panel, .content-card, .hero-card, .mini-card, .download-card { padding: 16px; }
+  .map-home { height: 340px; }
+  .map-lot { height: 420px; }
+}
