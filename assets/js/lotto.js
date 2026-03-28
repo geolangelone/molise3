@@ -39,12 +39,33 @@
     plannedEl.appendChild(li);
   });
 
-  const map = L.map('lotMap', {
-    zoomControl: true,
-    attributionControl: false
-  });
+const map = L.map('lotMap', {
+  zoomControl: true
+});
 
-  document.getElementById('lotMap').style.background = '#e9e9e9';
+// OPENSTREETMAP
+const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+});
+
+// SATELLITE (ESRI)
+const satellite = L.tileLayer(
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  {
+    attribution: 'Tiles &copy; Esri'
+  }
+);
+
+// aggiungi OSM come default
+osm.addTo(map);
+
+// controllo per cambiare layer
+L.control.layers(
+  {
+    "Street Map": osm,
+    "Satellite": satellite
+  }
+).addTo(map);
 
   const jsonMap = {
     lotto1: 'assets/data/lotto1_shapes.json',
