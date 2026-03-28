@@ -1,33 +1,77 @@
 (function () {
-  const mapEl = document.getElementById('homeMap');
-  if (!mapEl || !window.siteData) return;
 
-  const map = L.map('homeMap', { scrollWheelZoom: true }).setView(window.siteData.homeCenter, 9);
+  const map = L.map('homeMap').setView([41.7, 14.7], 9);
 
+  // BASE MAP (OSM)
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
   }).addTo(map);
 
-  Object.values(window.siteData.lotti).forEach((lotto) => {
-    const polygon = L.polygon(lotto.polygon, {
-      color: lotto.color,
-      weight: 3,
-      fillColor: lotto.color,
-      fillOpacity: 0.28
-    }).addTo(map);
 
-    polygon.bindPopup(`
-      <div>
-        <h3 class="popup-title">${lotto.name}</h3>
-        <div>Comuni: <strong>${lotto.summary.comuni}</strong></div>
-        <div>Indagini: <strong>${lotto.summary.indagini}</strong></div>
-        <div>Avanzamento medio: <strong>${lotto.summary.avanzamento}</strong></div>
-        <a class="popup-link" href="${lotto.link}">Apri pagina</a>
-      </div>
-    `);
+  // ------------------------
+  // MOLISE (GRIGIO CHIARISSIMO)
+  // ------------------------
+  fetch('assets/data/molise.json')
+    .then(res => res.json())
+    .then(moliseData => {
 
-    polygon.on('click', () => {
-      window.location.href = lotto.link;
+      const moliseLayer = L.geoJSON(moliseData, {
+        style: function () {
+          return {
+            color: '#bbbbbb',
+            weight: 1,
+            fillColor: '#eeeeee',
+            fillOpacity: 0.7
+          };
+        }
+      }).addTo(map);
+
+      map.fitBounds(moliseLayer.getBounds(), { padding: [20, 20] });
+
     });
-  });
+
+
+  // ------------------------
+  // LOTTI (SKY BLUE)
+  // ------------------------
+  fetch('assets/data/lotti_home.json')
+    .then(res => res.json())
+    .then(lottiData => {
+
+      L.geoJSON(lottiData, {
+
+        style: function () {
+          return {
+            color: '#3fa9f5',        // bordo
+            weight: 3,
+            fillColor: '#87ceeb',    // sky blue
+            fillOpacity: 0.4
+          };
+        },
+
+        onEachFeature: function (feature, layer) {
+
+          const nome =
+            feature.properties?.nome ||
+            feature.properties?.name ||
+            'Lotto';
+
+          let link = '#';
+          const n = nome.toLowerCase();
+
+          if (n.includes('1')) link = 'lotto1.html';
+          if (n.includes('2')) link = 'lotto2.html';
+          if (n.includes('3')) link = 'lotto3.html';
+
+          layer.bindTooltip(nome, { sticky: true });
+
+          layer.on('click', function () {
+            window.location.href = link;
+          });
+        }
+
+      }).addTo(map);
+
+    });
+
 })();
