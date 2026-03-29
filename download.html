@@ -26,6 +26,31 @@
     </nav>
   </header>
 
+<div class="download-grid" id="downloadGrid">
+  <article class="download-card">
+    <h3>Relazione generale di avanzamento</h3>
+    <p>Documento mensile di sintesi con quadro delle attività svolte, criticità e prossime azioni.</p>
+    <a href="#">Scarica PDF</a>
+  </article>
+
+  <article class="download-card">
+    <h3>Tavola di inquadramento lotti</h3>
+    <p>Elaborato cartografico di sintesi con perimetrazione dei lotti e localizzazione dei Comuni.</p>
+    <a href="#">Scarica PDF</a>
+  </article>
+
+  <article class="download-card">
+    <h3>Quadro economico e cronoprogramma</h3>
+    <p>Sintesi degli step operativi, tempistiche e milestone principali.</p>
+    <a href="#">Scarica XLSX</a>
+  </article>
+</div>
+
+
+
+
+
+  
   <main>
     <section class="content-card">
       <div class="section-head">
@@ -35,43 +60,83 @@
         </div>
         <p class="section-note">I link sotto sono dimostrativi e possono essere sostituiti con file reali PDF, ZIP, DWG o shapefile compressi.</p>
       </div>
-      <div class="download-grid">
-        <article class="download-card">
-          <h3>Relazione generale di avanzamento</h3>
-          <p>Documento mensile di sintesi con quadro delle attività svolte, criticità e prossime azioni.</p>
-          <a href="#">Scarica PDF</a>
-        </article>
-        <article class="download-card">
-          <h3>Tavola di inquadramento lotti</h3>
-          <p>Elaborato cartografico di sintesi con perimetrazione dei lotti e localizzazione dei Comuni.</p>
-          <a href="#">Scarica PDF</a>
-        </article>
-        <article class="download-card">
-          <h3>Database indagini - Lotto 1</h3>
-          <p>Archivio compresso delle indagini disponibili e programmate con schede descrittive.</p>
-          <a href="#">Scarica ZIP</a>
-        </article>
-        <article class="download-card">
-          <h3>Database indagini - Lotto 2</h3>
-          <p>Set dati dimostrativo con elenco delle attività geognostiche e geofisiche del lotto.</p>
-          <a href="#">Scarica ZIP</a>
-        </article>
-        <article class="download-card">
-          <h3>Database indagini - Lotto 3</h3>
-          <p>Archivio aggiornato con tracciati, stati di avanzamento e materiali documentali.</p>
-          <a href="#">Scarica ZIP</a>
-        </article>
-        <article class="download-card">
-          <h3>Quadro economico e cronoprogramma</h3>
-          <p>Sintesi degli step operativi, tempistiche e milestone principali.</p>
-          <a href="#">Scarica XLSX</a>
-        </article>
-      </div>
+      
     </section>
   </main>
 
   <footer class="site-footer">
     <p>Pagina statica pronta per essere collegata a file reali caricati nel repository GitHub.</p>
   </footer>
+
+<script>
+  function downloadGeoJSON(key) {
+    const raw = localStorage.getItem(key);
+    const points = raw ? JSON.parse(raw) : [];
+
+    if (!points.length) {
+      alert('Non ci sono dati salvati per questo lotto.');
+      return;
+    }
+
+    const geojson = {
+      type: 'FeatureCollection',
+      features: points.map((item) => ({
+        type: 'Feature',
+        properties: {
+          tipo: item.tipo,
+          nome: item.nome
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [item.lng, item.lat]
+        }
+      }))
+    };
+
+    const blob = new Blob([JSON.stringify(geojson, null, 2)], {
+      type: 'application/geo+json'
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${key.replace('indagini_', '')}_indagini.geojson`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  const grid = document.getElementById('downloadGrid');
+
+  [
+    { key: 'indagini_lotto1', title: 'Shape creati - Lotto 1', text: 'Esporta in GeoJSON i punti creati nella pagina Lotto 1.' },
+    { key: 'indagini_lotto2', title: 'Shape creati - Lotto 2', text: 'Esporta in GeoJSON i punti creati nella pagina Lotto 2.' },
+    { key: 'indagini_lotto3', title: 'Shape creati - Lotto 3', text: 'Esporta in GeoJSON i punti creati nella pagina Lotto 3.' }
+  ].forEach((item) => {
+    const raw = localStorage.getItem(item.key);
+    const points = raw ? JSON.parse(raw) : [];
+
+    if (!points.length) return;
+
+    const article = document.createElement('article');
+    article.className = 'download-card';
+    article.innerHTML = `
+      <h3>${item.title}</h3>
+      <p>${item.text}</p>
+      <a href="#" data-key="${item.key}">Scarica GeoJSON</a>
+    `;
+    grid.appendChild(article);
+  });
+
+  grid.addEventListener('click', function (e) {
+    const link = e.target.closest('a[data-key]');
+    if (!link) return;
+
+    e.preventDefault();
+    downloadGeoJSON(link.dataset.key);
+  });
+</script>
+  
 </body>
 </html>
