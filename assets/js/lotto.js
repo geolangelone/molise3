@@ -259,22 +259,26 @@
   const pickBtn = document.getElementById('pickPointBtn');
   const saveBtn = document.getElementById('savePointBtn');
 
-  if (pickBtn) {
-    pickBtn.addEventListener('click', function () {
-      pickingPoint = true;
-      pickBtn.textContent = 'Clicca sulla mappa...';
-    });
-  }
+  function applyPickedPoint(latlng) {
+  latEl.value = latlng.lat.toFixed(6);
+  lngEl.value = latlng.lng.toFixed(6);
+  pickingPoint = false;
+  pickBtn.textContent = 'Scegli con click';
+  map.getContainer().style.cursor = '';
+}
 
-  map.on('click', function (e) {
-    if (!pickingPoint) return;
-
-    latEl.value = e.latlng.lat.toFixed(6);
-    lngEl.value = e.latlng.lng.toFixed(6);
-
-    pickingPoint = false;
-    pickBtn.textContent = 'Scegli con click';
+if (pickBtn) {
+  pickBtn.addEventListener('click', function () {
+    pickingPoint = true;
+    pickBtn.textContent = 'Clicca sulla mappa...';
+    map.getContainer().style.cursor = 'crosshair';
   });
+}
+
+map.on('click', function (e) {
+  if (!pickingPoint) return;
+  applyPickedPoint(e.latlng);
+});
 
   if (saveBtn) {
     saveBtn.addEventListener('click', function () {
