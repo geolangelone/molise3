@@ -4,6 +4,8 @@
   if (!key || !window.siteData || !window.siteData.lotti[key]) return;
 
   const data = window.siteData.lotti[key];
+  let geoLayer;
+
   document.getElementById('lotTitle').textContent = `${data.name} - carta di sintesi`;
 
   const summaryEl = document.getElementById('lotSummary');
@@ -39,33 +41,42 @@
     plannedEl.appendChild(li);
   });
 
-const map = L.map('lotMap', {
-  zoomControl: true
-});
+  const map = L.map('lotMap', {
+    zoomControl: true
+  });
 
-// OPENSTREETMAP
-const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
-});
+  const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  });
 
-// SATELLITE (ESRI)
-const satellite = L.tileLayer(
-  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-  {
-    attribution: 'Tiles &copy; Esri'
-  }
-);
+  const satellite = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {
+      attribution: 'Tiles &copy; Esri'
+    }
+  );
 
-// aggiungi OSM come default
-osm.addTo(map);
+  const light = L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    {
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+    }
+  );
 
-// controllo per cambiare layer
-L.control.layers(
-  {
-    "Street Map": osm,
-    "Satellite": satellite
-  }
-).addTo(map);
+  light.addTo(map);
+
+  L.control.layers(
+    {
+      'Street Map': osm,
+      'Satellite': satellite,
+      'Light Gray': light
+    },
+    null,
+    {
+      collapsed: false,
+      position: 'topright'
+    }
+  ).addTo(map);
 
   const jsonMap = {
     lotto1: 'assets/data/lotto1_shapes.json',
@@ -79,13 +90,13 @@ L.control.layers(
   fetch(jsonFile)
     .then(res => res.json())
     .then(geojsonData => {
-      const geoLayer = L.geoJSON(geojsonData, {
+      geoLayer = L.geoJSON(geojsonData, {
         style: function () {
           return {
             color: '#5a5a5a',
             weight: 1,
             fillColor: '#d8efcc',
-            fillOpacity: 1
+            fillOpacity: 0.7
           };
         },
         onEachFeature: function (feature, layer) {
@@ -104,6 +115,7 @@ L.control.layers(
       }).addTo(map);
 
       map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
+      createOpacityControl();
     })
     .catch(err => {
       console.error('Errore caricamento GeoJSON:', err);
@@ -149,4 +161,37 @@ L.control.layers(
     `;
     legendEl.appendChild(row);
   });
+
+  function createOpacityControl() {
+    const control = L.control({ position: 'bottomleft' });
+
+    control.onAdd = function () {
+      const div = L.DomUtil.create('div', 'opacity-control');
+      div.innerHTML = `
+        <div style="background:white;padding:8px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+          <label style="font-size:12px;">Trasparenza layer</label><br>
+          <input type="range" min="0" max="1" step="0.05" value="0.7" id="opacitySliderLotto">
+        </div>
+      `;
+
+      L.DomEvent.disableClickPropagation(div);
+      L.DomEvent.disableScrollPropagation(div);
+
+      return div;
+    };
+
+    control.addTo(map);
+
+    setTimeout(() => {
+      const slider = document.getElementById('opacitySliderLotto');
+      if (!slider || !geoLayer) return;
+
+      slider.addEventListener('input', function () {
+        const val = parseFloat(this.value);
+        geoLayer.setStyle({
+          fillOpacity: val
+        });
+      });
+    }, 200);
+  }
 })();
