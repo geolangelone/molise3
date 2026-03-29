@@ -26,13 +26,11 @@
   block.innerHTML = '<h3>Categorie</h3>';
   const ul = document.createElement('ul');
   ul.className = 'badge-list';
-
   Object.entries(data.available).forEach(([name, value]) => {
     const li = document.createElement('li');
     li.innerHTML = `<span>${name}</span><span class="badge-count">${value}</span>`;
     ul.appendChild(li);
   });
-
   block.appendChild(ul);
   availableEl.appendChild(block);
 
@@ -53,12 +51,16 @@
 
   const satellite = L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    { attribution: 'Tiles &copy; Esri' }
+    {
+      attribution: 'Tiles &copy; Esri'
+    }
   );
 
   const light = L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_all/{z}/{y}/{x}{r}.png',
-    { attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }
+    {
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+    }
   );
 
   light.addTo(map);
@@ -84,88 +86,6 @@
 
   const jsonFile = jsonMap[key];
   if (!jsonFile) return;
-
-  const iconSondaggi = L.icon({
-    iconUrl: 'assets/images/sondaggio.png',
-    iconSize: [22, 22],
-    iconAnchor: [11, 11]
-  });
-
-  const iconDownHole = L.icon({
-    iconUrl: 'assets/images/downhole.png',
-    iconSize: [28, 20],
-    iconAnchor: [10, 10]
-  });
-
-  const iconHVSR = L.icon({
-    iconUrl: 'assets/images/hvsr.png',
-    iconSize: [24, 20],
-    iconAnchor: [12, 10]
-  });
-
-  function drawPoint(indagine, layerGroup) {
-    let marker;
-
-    if (indagine.tipo === 'Sondaggi') {
-      marker = L.marker([indagine.lat, indagine.lng], { icon: iconSondaggi });
-    } else if (indagine.tipo === 'Down Hole') {
-      marker = L.marker([indagine.lat, indagine.lng], { icon: iconDownHole });
-    } else if (indagine.tipo === 'HVSR') {
-      marker = L.marker([indagine.lat, indagine.lng], { icon: iconHVSR });
-    } else {
-      marker = L.circleMarker([indagine.lat, indagine.lng], {
-        radius: 6,
-        color: '#666666',
-        fillColor: '#666666',
-        fillOpacity: 0.9,
-        weight: 2
-      });
-    }
-
-    marker.bindPopup(`<strong>${indagine.nome}</strong><br>${indagine.tipo}`);
-    layerGroup.addLayer(marker);
-  }
-
-  function drawLine(indagine, layerGroup) {
-    let style = {
-      color: '#666666',
-      weight: 3
-    };
-
-    if (indagine.tipo === 'MASW') {
-      style = {
-        color: '#000000',
-        weight: 4
-      };
-    }
-
-    if (indagine.tipo === 'Rifrazione') {
-      style = {
-        color: '#c62828',
-        weight: 3,
-        dashArray: '6,4'
-      };
-    }
-
-    const line = L.polyline(indagine.coords, style);
-    line.bindPopup(`<strong>${indagine.nome}</strong><br>${indagine.tipo}`);
-    layerGroup.addLayer(line);
-  }
-
-  function drawIndagini(layerGroup) {
-    if (!Array.isArray(data.indagini)) return;
-
-    data.indagini.forEach((indagine) => {
-      if (Array.isArray(indagine.coords)) {
-        drawLine(indagine, layerGroup);
-      } else if (
-        typeof indagine.lat === 'number' &&
-        typeof indagine.lng === 'number'
-      ) {
-        drawPoint(indagine, layerGroup);
-      }
-    });
-  }
 
   fetch(jsonFile)
     .then(res => res.json())
@@ -194,20 +114,9 @@
         }
       }).addTo(map);
 
-      const indaginiLayer = L.layerGroup().addTo(map);
-      drawIndagini(indaginiLayer);
-
-      try {
-        const boundsGroup = L.featureGroup([geoLayer, indaginiLayer]);
-
-        if (boundsGroup.getBounds().isValid()) {
-          map.fitBounds(boundsGroup.getBounds(), { padding: [20, 20] });
-        } else if (geoLayer.getBounds().isValid()) {
-          map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
-        } else {
-          map.setView(data.center, 11);
-        }
-      } catch (e) {
+      if (geoLayer.getBounds().isValid()) {
+        map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
+      } else {
         map.setView(data.center, 11);
       }
 
