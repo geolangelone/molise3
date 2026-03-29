@@ -49,11 +49,10 @@ a:hover {
 
 .hero-top {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  width: 100%;
-}
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 16px;
+  width: 100%;}
 
 .brand-wrap {
   display: flex;
