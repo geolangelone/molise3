@@ -806,3 +806,50 @@ main {
     font-size: 1.5rem;
   }
 }
+.input-form {
+  display: grid;
+  gap: 10px;
+}
+
+.input-form label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.input-form input,
+.input-form select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+}
+
+.input-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.input-actions button {
+  padding: 10px 14px;
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.input-actions button:hover {
+  opacity: 0.92;
+}
+
+.input-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
