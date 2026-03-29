@@ -45,7 +45,30 @@
   fetch('assets/data/molise.json')
     .then(res => res.json())
     .then(moliseData => {
-      const moliseLayer = L.geoJSON(moliseData, {
+      let moliseLayer;
+
+fetch('assets/data/molise.json')
+  .then(res => res.json())
+  .then(moliseData => {
+
+    moliseLayer = L.geoJSON(moliseData, {
+      pane: 'paneMolise',
+      style: function () {
+        return {
+          color: '#bfbfbf',
+          weight: 1,
+          fillColor: '#eeeeee',
+          fillOpacity: 0.5
+        };
+      },
+      interactive: false
+    }).addTo(map);
+
+    map.fitBounds(moliseLayer.getBounds(), { padding: [20, 20] });
+
+    createOpacityControl();
+
+  });
         pane: 'paneMolise',
         style: function () {
           return {
