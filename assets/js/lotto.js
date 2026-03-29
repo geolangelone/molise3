@@ -181,7 +181,7 @@ const jsonFile = jsonMap[key];
           layer.bindPopup(`<strong>${nome}</strong>`);
         }
       }).addTo(map);
-
+map.fitBounds(geoLayer.getBounds());
 geoLayer.eachLayer(function (layer) {
   layer.on('click', function (e) {
     if (!pickingPoint) return;
