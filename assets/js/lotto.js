@@ -99,7 +99,7 @@
     lotto3: 'assets/data/lotto3_shapes.json'
   };
 
-  const jsonFile = jsonMap[key];
+  const jsonFile = 'assets/data/lotto1_shapes.json';
   if (!jsonFile) return;
 
   const iconSondaggi = L.icon({
