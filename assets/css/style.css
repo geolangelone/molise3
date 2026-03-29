@@ -77,6 +77,9 @@ a:hover {
 .hero-title-block {
   flex: 1 1 auto;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .hero-title-line {
@@ -121,13 +124,12 @@ a:hover {
 }
 
 .logo-dc {
-  flex: 0 0 auto;
   display: block;
-  height: 72px;
+  height: 60px;
   width: auto;
-  max-width: 240px;
+  margin: 10px 0 0 0;
+  max-width: 220px;
   object-fit: contain;
-  margin-left: auto;
 }
 
 .main-nav {
