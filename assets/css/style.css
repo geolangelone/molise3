@@ -853,3 +853,7 @@ main {
   font-size: 0.85rem;
   color: var(--muted);
 }
+.picking-point,
+.picking-point .leaflet-interactive {
+  cursor: crosshair !important;
+}
