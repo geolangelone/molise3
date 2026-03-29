@@ -175,3 +175,7 @@ main { padding: clamp(16px, 3vw, 30px); }
   position: relative;
   z-index: 1;
 }
+
+.opacity-control {
+  z-index: 9999;
+}
