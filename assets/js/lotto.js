@@ -275,19 +275,19 @@ geoLayer.eachLayer(function (layer) {
   const pickBtn = document.getElementById('pickPointBtn');
   const saveBtn = document.getElementById('savePointBtn');
 
-  function applyPickedPoint(latlng) {
+function applyPickedPoint(latlng) {
   latEl.value = latlng.lat.toFixed(6);
   lngEl.value = latlng.lng.toFixed(6);
   pickingPoint = false;
   pickBtn.textContent = 'Scegli con click';
-  map.getContainer().style.cursor = '';
+  map.getContainer().classList.remove('picking-point');
 }
 
 if (pickBtn) {
   pickBtn.addEventListener('click', function () {
     pickingPoint = true;
     pickBtn.textContent = 'Clicca sulla mappa...';
-    map.getContainer().style.cursor = 'crosshair';
+    map.getContainer().classList.add('picking-point');
   });
 }
 
