@@ -663,3 +663,146 @@ main {
     font-size: 1.5rem;
   }
 }
+/* CORREZIONE HEADER LOTTI */
+.hero-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start !important;
+  gap: 16px;
+  width: 100%;
+}
+
+.hero-title-block {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start !important;
+}
+
+.logo-dc {
+  display: block;
+  height: 60px;
+  width: auto;
+  margin: 10px 0 0 0 !important;
+  max-width: 220px;
+  object-fit: contain;
+}
+
+.hero-title-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hero-title-line h1,
+.hero-title-line h2 {
+  margin: 0;
+  color: #fff;
+}
+
+.hero-title-line h1 {
+  font-size: 2.2rem;
+  line-height: 1.1;
+}
+
+.hero-title-line h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.hero-separator {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+
+/* HOME */
+.home-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.home-logo-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.home-logo-title h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 2.1rem;
+}
+
+.home-logo-title .subtitle {
+  margin: 6px 0 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .logo-dc {
+    height: 58px;
+    max-width: 190px;
+  }
+
+  .hero-title-line h1 {
+    font-size: 1.9rem;
+  }
+
+  .hero-title-line h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-top {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .hero-title-block {
+    flex: 1 1 100%;
+  }
+
+  .logo-dc {
+    height: 48px;
+    max-width: 150px;
+    margin: 10px 0 0 0 !important;
+  }
+
+  .hero-title-line {
+    gap: 8px;
+  }
+
+  .hero-title-line h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero-title-line h2 {
+    font-size: 1rem;
+  }
+
+  .hero-separator {
+    font-size: 1rem;
+  }
+
+  .home-brand {
+    flex-wrap: wrap;
+  }
+
+  .home-logo-title {
+    margin-left: 0;
+    flex-wrap: wrap;
+  }
+
+  .home-logo-title h1 {
+    font-size: 1.5rem;
+  }
+}
