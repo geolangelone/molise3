@@ -80,6 +80,9 @@
 
   light.addTo(map);
 
+map.setView(data.center, 11);
+
+  
   L.control.layers(
     {
       'Street Map': osm,
@@ -197,11 +200,7 @@ geoLayer.eachLayer(function (layer) {
       
       redrawSavedPoints();
 
-     if (geoLayer && geoLayer.getBounds().isValid()) {
-  map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
-} else {
-  map.setView(data.center, 11);
-}
+
 
       createOpacityControl();
     })
