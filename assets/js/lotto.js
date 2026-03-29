@@ -5,6 +5,21 @@
 
   const data = window.siteData.lotti[key];
   let geoLayer;
+  let pickingPoint = false;
+
+  const storageKey = `indagini_${key}`;
+
+  function loadSavedPoints() {
+    try {
+      return JSON.parse(localStorage.getItem(storageKey)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function savePoints(points) {
+    localStorage.setItem(storageKey, JSON.stringify(points));
+  }
 
   document.getElementById('lotTitle').textContent = `${data.name} - carta di sintesi`;
 
@@ -87,6 +102,57 @@
   const jsonFile = jsonMap[key];
   if (!jsonFile) return;
 
+  const iconSondaggi = L.icon({
+    iconUrl: 'assets/images/sondaggio.png',
+    iconSize: [22, 22],
+    iconAnchor: [11, 11]
+  });
+
+  const iconDownHole = L.icon({
+    iconUrl: 'assets/images/downhole.png',
+    iconSize: [28, 20],
+    iconAnchor: [10, 10]
+  });
+
+  const iconHVSR = L.icon({
+    iconUrl: 'assets/images/hvsr.png',
+    iconSize: [24, 20],
+    iconAnchor: [12, 10]
+  });
+
+  function getPointMarker(indagine) {
+    if (indagine.tipo === 'Sondaggi') {
+      return L.marker([indagine.lat, indagine.lng], { icon: iconSondaggi });
+    }
+    if (indagine.tipo === 'Down Hole') {
+      return L.marker([indagine.lat, indagine.lng], { icon: iconDownHole });
+    }
+    if (indagine.tipo === 'HVSR') {
+      return L.marker([indagine.lat, indagine.lng], { icon: iconHVSR });
+    }
+
+    return L.circleMarker([indagine.lat, indagine.lng], {
+      radius: 6,
+      color: '#666666',
+      fillColor: '#666666',
+      fillOpacity: 0.9,
+      weight: 2
+    });
+  }
+
+  const indaginiLayer = L.layerGroup().addTo(map);
+
+  function redrawSavedPoints() {
+    indaginiLayer.clearLayers();
+    const points = loadSavedPoints();
+
+    points.forEach((indagine) => {
+      const marker = getPointMarker(indagine);
+      marker.bindPopup(`<strong>${indagine.nome}</strong><br>${indagine.tipo}`);
+      indaginiLayer.addLayer(marker);
+    });
+  }
+
   fetch(jsonFile)
     .then(res => res.json())
     .then(geojsonData => {
@@ -114,7 +180,12 @@
         }
       }).addTo(map);
 
-      if (geoLayer.getBounds().isValid()) {
+      redrawSavedPoints();
+
+      const boundsGroup = L.featureGroup([geoLayer, indaginiLayer]);
+      if (boundsGroup.getBounds().isValid()) {
+        map.fitBounds(boundsGroup.getBounds(), { padding: [20, 20] });
+      } else if (geoLayer.getBounds().isValid()) {
         map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
       } else {
         map.setView(data.center, 11);
@@ -180,6 +251,53 @@
     `;
     legendEl.appendChild(row);
   });
+
+  const tipoEl = document.getElementById('indagineTipo');
+  const nomeEl = document.getElementById('indagineNome');
+  const latEl = document.getElementById('indagineLat');
+  const lngEl = document.getElementById('indagineLng');
+  const pickBtn = document.getElementById('pickPointBtn');
+  const saveBtn = document.getElementById('savePointBtn');
+
+  if (pickBtn) {
+    pickBtn.addEventListener('click', function () {
+      pickingPoint = true;
+      pickBtn.textContent = 'Clicca sulla mappa...';
+    });
+  }
+
+  map.on('click', function (e) {
+    if (!pickingPoint) return;
+
+    latEl.value = e.latlng.lat.toFixed(6);
+    lngEl.value = e.latlng.lng.toFixed(6);
+
+    pickingPoint = false;
+    pickBtn.textContent = 'Scegli con click';
+  });
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', function () {
+      const tipo = tipoEl.value;
+      const nome = nomeEl.value.trim();
+      const lat = parseFloat(latEl.value);
+      const lng = parseFloat(lngEl.value);
+
+      if (!nome || isNaN(lat) || isNaN(lng)) {
+        alert('Compila nome, latitudine e longitudine.');
+        return;
+      }
+
+      const points = loadSavedPoints();
+      points.push({ tipo, nome, lat, lng });
+      savePoints(points);
+      redrawSavedPoints();
+
+      nomeEl.value = '';
+      latEl.value = '';
+      lngEl.value = '';
+    });
+  }
 
   function createOpacityControl() {
     const control = L.control({ position: 'bottomleft' });
