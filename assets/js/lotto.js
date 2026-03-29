@@ -87,6 +87,119 @@
   const jsonFile = jsonMap[key];
   if (!jsonFile) return;
 
+  const iconSondaggi = L.icon({
+    iconUrl: 'assets/images/sondaggio.png',
+    iconSize: [22, 22],
+    iconAnchor: [11, 11]
+  });
+
+  const iconDownHole = L.icon({
+    iconUrl: 'assets/images/downhole.png',
+    iconSize: [28, 20],
+    iconAnchor: [10, 10]
+  });
+
+  const iconHVSR = L.icon({
+    iconUrl: 'assets/images/hvsr.png',
+    iconSize: [24, 20],
+    iconAnchor: [12, 10]
+  });
+
+  function getLineStyle(tipo) {
+    if (tipo === 'MASW') {
+      return {
+        color: '#000000',
+        weight: 4
+      };
+    }
+
+    if (tipo === 'Rifrazione') {
+      return {
+        color: '#c62828',
+        weight: 3,
+        dashArray: '6,4'
+      };
+    }
+
+    return {
+      color: '#666666',
+      weight: 3
+    };
+  }
+
+  function getLineLabel(tipo) {
+    if (tipo === 'MASW') return 'MW';
+    if (tipo === 'Rifrazione') return 'SR';
+    return '';
+  }
+
+  function createLineLabel(latlng, text, color) {
+    return L.marker(latlng, {
+      interactive: false,
+      icon: L.divIcon({
+        className: 'line-label-icon',
+        html: `<div style="
+          background:#ffffff;
+          border:1px solid #222;
+          border-radius:3px;
+          padding:1px 4px;
+          font-size:12px;
+          font-weight:700;
+          color:${color};
+          line-height:1;
+          white-space:nowrap;
+        ">${text}</div>`,
+        iconSize: [28, 18],
+        iconAnchor: [14, 9]
+      })
+    });
+  }
+
+  function getMidPoint(coords) {
+    const midIndex = Math.floor(coords.length / 2);
+    return coords[midIndex];
+  }
+
+  function drawIndagine(indagine, layerGroup) {
+    if (indagine.coords && Array.isArray(indagine.coords)) {
+      const style = getLineStyle(indagine.tipo);
+      const line = L.polyline(indagine.coords, style)
+        .bindPopup(`<strong>${indagine.nome}</strong><br>${indagine.tipo}`);
+      layerGroup.addLayer(line);
+
+      const labelText = getLineLabel(indagine.tipo);
+      if (labelText) {
+        const mid = getMidPoint(indagine.coords);
+        const label = createLineLabel(mid, labelText, indagine.tipo === 'MASW' ? '#c62828' : '#c62828');
+        layerGroup.addLayer(label);
+      }
+      return;
+    }
+
+    if (typeof indagine.lat === 'number' && typeof indagine.lng === 'number') {
+      let marker;
+
+      if (indagine.tipo === 'Sondaggi') {
+        marker = L.marker([indagine.lat, indagine.lng], { icon: iconSondaggi });
+      } else if (indagine.tipo === 'Down Hole') {
+        marker = L.marker([indagine.lat, indagine.lng], { icon: iconDownHole });
+      } else if (indagine.tipo === 'HVSR') {
+        marker = L.marker([indagine.lat, indagine.lng], { icon: iconHVSR });
+      } else {
+        marker = L.circleMarker([indagine.lat, indagine.lng], {
+          radius: 6,
+          color: '#666666',
+          fillColor: '#666666',
+          fillOpacity: 0.9,
+          weight: 2
+        });
+      }
+
+      marker.bindPopup(`<strong>${indagine.nome}</strong><br>${indagine.tipo}`);
+      layerGroup.addLayer(marker);
+    }
+  }
+
   fetch(jsonFile)
     .then(res => res.json())
     .then(geojsonData => {
@@ -114,28 +227,36 @@
         }
       }).addTo(map);
 
-      map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
+      const indaginiLayer = L.layerGroup().addTo(map);
+      if (Array.isArray(data.indagini)) {
+        data.indagini.forEach(indagine => drawIndagine(indagine, indaginiLayer));
+      }
+
+      const boundsGroup = L.featureGroup([geoLayer, indaginiLayer]);
+      map.fitBounds(boundsGroup.getBounds(), { padding: [20, 20] });
+
       createOpacityControl();
     })
     .catch(err => {
       console.error('Errore caricamento GeoJSON:', err);
     });
-const colors = [
-  '#174e8c',
-  '#31a3dd',
-  '#2e7d32',
-  '#ef6c00',
-  '#7b1fa2',
-  '#c62828',
-  '#6a9bd1',
-  '#3f51b5',
-  '#009688',
-  '#8bc34a',
-  '#ff9800',
-  '#795548'
-];
-  const ctx = document.getElementById('progressChart');
 
+  const colors = [
+    '#174e8c',
+    '#31a3dd',
+    '#2e7d32',
+    '#ef6c00',
+    '#7b1fa2',
+    '#c62828',
+    '#6a9bd1',
+    '#3f51b5',
+    '#009688',
+    '#8bc34a',
+    '#ff9800',
+    '#795548'
+  ];
+
+  const ctx = document.getElementById('progressChart');
   new Chart(ctx, {
     type: 'pie',
     data: {
