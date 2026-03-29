@@ -149,30 +149,3 @@ fetch('assets/data/molise.json')
       console.error('Errore caricamento lotti_home.json:', err);
     });
 })();
-function createOpacityControl() {
-  const control = L.control({ position: 'bottomleft' });
-
-  control.onAdd = function () {
-    const div = L.DomUtil.create('div', 'opacity-control');
-    div.innerHTML = `
-      <div style="background:white;padding:8px;border-radius:6px;">
-        <label style="font-size:12px;">Trasparenza Molise</label><br>
-        <input type="range" min="0" max="1" step="0.05" value="0.5" id="opacitySlider">
-      </div>
-    `;
-    return div;
-  };
-
-  control.addTo(map);
-
-  setTimeout(() => {
-    const slider = document.getElementById('opacitySlider');
-    slider.addEventListener('input', function () {
-      const val = parseFloat(this.value);
-
-      moliseLayer.setStyle({
-        fillOpacity: val
-      });
-    });
-  }, 500);
-}
