@@ -5,9 +5,14 @@ window.siteData = {
       name: 'Lotto 1',
       color: '#2e7d32',
       link: 'lotto1.html',
-      center: [41.59, 14.25],
+      center: [41.63, 14.16],
       polygon: [
-        [41.72, 14.00], [41.74, 14.18], [41.66, 14.34], [41.52, 14.40], [41.45, 14.24], [41.50, 13.98]
+        [41.72, 14.00],
+        [41.74, 14.18],
+        [41.66, 14.34],
+        [41.52, 14.40],
+        [41.45, 14.24],
+        [41.50, 13.98]
       ],
       summary: {
         comuni: 2,
@@ -20,25 +25,40 @@ window.siteData = {
         'MASW': 5,
         'Down Hole': 2,
         'HVSR': 6,
-        'Altro': 0
+        'Altro': 3
       },
       planned: [
-        { title: 'Integrazione geognostica su dorsale comunale', note: 'Previsti 2 sondaggi e 1 prova penetrometrica in area urbana di espansione.' },
-        { title: 'Campagna HVSR aggiuntiva', note: 'Acquisizioni di controllo nelle aree con maggiore variabilità litotecnica.' },
-        { title: 'Verifica rifrazione tratto stradale', note: 'Ricalibrazione delle sezioni geofisiche in corrispondenza di un nodo viario.' }
+        {
+          title: 'Integrazione geognostica su dorsale comunale',
+          note: 'Previsti 2 sondaggi e 1 prova penetrometrica in area urbana di espansione.'
+        },
+        {
+          title: 'Campagna HVSR aggiuntiva',
+          note: 'Acquisizioni di controllo nelle aree con maggiore variabilità litotecnica.'
+        },
+        {
+          title: 'Verifica rifrazione tratto stradale',
+          note: 'Ricalibrazione delle sezioni geofisiche in corrispondenza di un nodo viario.'
+        }
       ],
       comuni: [
-        { name: 'Comune di Campobasso', progress: 82, coords: [41.63, 14.11] },
-        { name: 'Comune di Ripalimosani', progress: 67, coords: [41.68, 14.28] },
+        { name: 'Campobasso', progress: 82, coords: [41.56, 14.67] },
+        { name: 'Ripalimosani', progress: 67, coords: [41.61, 14.66] }
       ]
     },
+
     lotto2: {
       name: 'Lotto 2',
       color: '#ef6c00',
       link: 'lotto2.html',
-      center: [41.73, 14.75],
+      center: [41.88, 15.02],
       polygon: [
-        [41.84, 14.42], [41.91, 14.78], [41.82, 15.02], [41.64, 15.06], [41.54, 14.82], [41.60, 14.50]
+        [41.98, 14.58],
+        [42.01, 14.93],
+        [41.94, 15.18],
+        [41.79, 15.16],
+        [41.72, 14.95],
+        [41.79, 14.64]
       ],
       summary: {
         comuni: 8,
@@ -54,28 +74,46 @@ window.siteData = {
         'Altro': 5
       },
       planned: [
-        { title: 'Down-hole in area di fondovalle', note: 'Programmata perforazione con logging per verifica delle velocità di dettaglio.' },
-        { title: 'Nuove MASW lungo infrastruttura principale', note: 'Acquisizioni lineari su tre sezioni strategiche.' },
-        { title: 'Saggi geotecnici integrativi', note: 'Pianificati in corrispondenza di due aree di futura cantierizzazione.' }
+        {
+          title: 'Down-hole in area di fondovalle',
+          note: 'Programmata perforazione con logging per verifica delle velocità di dettaglio.'
+        },
+        {
+          title: 'Nuove MASW lungo infrastruttura principale',
+          note: 'Acquisizioni lineari su tre sezioni strategiche.'
+        },
+        {
+          title: 'Saggi geotecnici integrativi',
+          note: 'Pianificati in corrispondenza di due aree di futura cantierizzazione.'
+        }
       ],
       comuni: [
-        { name: 'Comune di Campomarino', progress: 72, coords: [41.84, 14.61] },
-        { name: 'Comune di Guglionesi', progress: 61, coords: [41.78, 14.88] },
-        { name: 'Comune di Mafalda', progress: 41, coords: [41.66, 14.98] },
-        { name: 'Comune di Portocannone', progress: 54, coords: [41.58, 14.72] },
-        { name: 'Comune di San Giacomo degli Schiavoni', progress: 52, coords: [41.71, 14.49] }
+        { name: 'Campomarino', progress: 72, coords: [41.96, 15.04] },
+        { name: 'Guglionesi', progress: 61, coords: [41.91, 14.91] },
+        { name: 'Mafalda', progress: 41, coords: [41.67, 14.72] },
+        { name: 'Portocannone', progress: 54, coords: [41.91, 15.01] },
+        { name: 'San Giacomo degli Schiavoni', progress: 52, coords: [42.00, 14.95] },
+        { name: 'San Martino in Pensilis', progress: 49, coords: [41.87, 14.92] },
+        { name: 'Termoli', progress: 78, coords: [41.99, 14.99] },
+        { name: 'Ururi', progress: 43, coords: [41.82, 15.03] }
       ]
     },
+
     lotto3: {
       name: 'Lotto 3',
       color: '#7b1fa2',
       link: 'lotto3.html',
-      center: [41.66, 15.28],
+      center: [41.62, 14.12],
       polygon: [
-        [41.79, 15.08], [41.85, 15.46], [41.72, 15.70], [41.50, 15.64], [41.43, 15.26], [41.55, 15.02]
+        [41.77, 13.95],
+        [41.77, 14.28],
+        [41.66, 14.34],
+        [41.50, 14.31],
+        [41.45, 14.06],
+        [41.53, 13.90]
       ],
       summary: {
-        comuni: 3,
+        comuni: 9,
         indagini: 28,
         avanzamento: '60%'
       },
@@ -88,14 +126,29 @@ window.siteData = {
         'Altro': 5
       },
       planned: [
-        { title: 'Monitoraggio integrato costiero', note: 'Serie di controlli geofisici e geotecnici nelle aree con dinamica evolutiva.' },
-        { title: 'Prospezioni di dettaglio su area urbana', note: 'Campagna a rifrazione con controlli puntuali MASW.' },
-        { title: 'Aggiornamento quadro conoscitivo', note: 'Verifica documentale e rilievi speditivi su siti già indagati.' }
+        {
+          title: 'Monitoraggio integrato di settore',
+          note: 'Serie di controlli geofisici e geotecnici nelle aree a maggiore variabilità litostratigrafica.'
+        },
+        {
+          title: 'Prospezioni di dettaglio su area urbana',
+          note: 'Campagna a rifrazione con controlli puntuali MASW.'
+        },
+        {
+          title: 'Aggiornamento quadro conoscitivo',
+          note: 'Verifica documentale e rilievi speditivi su siti già indagati.'
+        }
       ],
       comuni: [
-        { name: 'Comune di Marina Alta', progress: 76, coords: [41.79, 15.27] },
-        { name: 'Comune di Torre del Mare', progress: 58, coords: [41.63, 15.48] },
-        { name: 'Comune di Collina Lunga', progress: 46, coords: [41.51, 15.19] }
+        { name: 'Colli a Volturno', progress: 76, coords: [41.60, 14.10] },
+        { name: 'Conca Casale', progress: 58, coords: [41.56, 13.98] },
+        { name: 'Filignano', progress: 46, coords: [41.68, 14.05] },
+        { name: 'Montaquila', progress: 63, coords: [41.57, 14.11] },
+        { name: 'Monteroduni', progress: 69, coords: [41.55, 14.14] },
+        { name: 'Pozzilli', progress: 81, coords: [41.52, 14.15] },
+        { name: 'Scapoli', progress: 44, coords: [41.61, 14.06] },
+        { name: 'Sesto Campano', progress: 57, coords: [41.42, 14.07] },
+        { name: 'Venafro', progress: 84, coords: [41.49, 14.05] }
       ]
     }
   }
