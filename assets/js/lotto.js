@@ -208,6 +208,7 @@ try {
   } else {
     map.setView(data.center, 11);
   }
+   }
 } catch (e) {
   map.setView(data.center, 11);
         } else if (geoLayer.getBounds().isValid()) {
