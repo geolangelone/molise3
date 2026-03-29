@@ -9,10 +9,38 @@
   map.createPane('paneLotti');
   map.getPane('paneLotti').style.zIndex = 500;
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
-    opacity: 0.55
-  }).addTo(map);
+  const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  });
+
+  const satellite = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {
+      attribution: 'Tiles &copy; Esri'
+    }
+  );
+
+  const light = L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    {
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+    }
+  );
+
+  light.addTo(map);
+
+  L.control.layers(
+    {
+      'Street Map': osm,
+      'Satellite': satellite,
+      'Light Gray': light
+    },
+    null,
+    {
+      collapsed: false,
+      position: 'topright'
+    }
+  ).addTo(map);
 
   fetch('assets/data/molise.json')
     .then(res => res.json())
@@ -49,7 +77,6 @@
             fillOpacity: 0
           };
         },
-
         onEachFeature: function (feature, layer) {
           const props = feature.properties || {};
 
@@ -62,13 +89,13 @@
             props.LOTTO ||
             'Lotto';
 
-          let link = '#';
-
-          const testo = String(nome).toLowerCase();
-
-          if (testo.includes('1')) link = 'lotto1.html';
-          else if (testo.includes('2')) link = 'lotto2.html';
-          else if (testo.includes('3')) link = 'lotto3.html';
+          const pagina =
+            props.pagina ||
+            props.link ||
+            props.url ||
+            (String(nome).toLowerCase().includes('1') ? 'lotto1.html' :
+             String(nome).toLowerCase().includes('2') ? 'lotto2.html' :
+             String(nome).toLowerCase().includes('3') ? 'lotto3.html' : '#');
 
           layer.bindTooltip(nome, { sticky: true });
 
@@ -86,10 +113,8 @@
           });
 
           layer.on('click', function () {
-            if (link !== '#') {
-              window.location.href = link;
-            } else {
-              alert('Il lotto è visibile ma non ha un nome riconosciuto nel file JSON.');
+            if (pagina && pagina !== '#') {
+              window.location.href = pagina;
             }
           });
         }
