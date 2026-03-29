@@ -57,7 +57,7 @@
   );
 
   const light = L.tileLayer(
-    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{y}/{x}{r}.png',
     { attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }
   );
 
@@ -197,20 +197,11 @@
       const indaginiLayer = L.layerGroup().addTo(map);
       drawIndagini(indaginiLayer);
 
-   
-try {
-  const boundsGroup = L.featureGroup([geoLayer, indaginiLayer]);
+      try {
+        const boundsGroup = L.featureGroup([geoLayer, indaginiLayer]);
 
-  if (boundsGroup.getBounds().isValid()) {
-    map.fitBounds(boundsGroup.getBounds(), { padding: [20, 20] });
-  } else if (geoLayer.getBounds().isValid()) {
-    map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
-  } else {
-    map.setView(data.center, 11);
-  }
-   }
-} catch (e) {
-  map.setView(data.center, 11);
+        if (boundsGroup.getBounds().isValid()) {
+          map.fitBounds(boundsGroup.getBounds(), { padding: [20, 20] });
         } else if (geoLayer.getBounds().isValid()) {
           map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
         } else {
