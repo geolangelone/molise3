@@ -26,11 +26,13 @@
   block.innerHTML = '<h3>Categorie</h3>';
   const ul = document.createElement('ul');
   ul.className = 'badge-list';
+
   Object.entries(data.available).forEach(([name, value]) => {
     const li = document.createElement('li');
     li.innerHTML = `<span>${name}</span><span class="badge-count">${value}</span>`;
     ul.appendChild(li);
   });
+
   block.appendChild(ul);
   availableEl.appendChild(block);
 
@@ -51,16 +53,12 @@
 
   const satellite = L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    {
-      attribution: 'Tiles &copy; Esri'
-    }
+    { attribution: 'Tiles &copy; Esri' }
   );
 
   const light = L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-    {
-      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
-    }
+    { attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }
   );
 
   light.addTo(map);
@@ -105,99 +103,68 @@
     iconAnchor: [12, 10]
   });
 
-  function getLineStyle(tipo) {
-    if (tipo === 'MASW') {
-      return {
+  function drawPoint(indagine, layerGroup) {
+    let marker;
+
+    if (indagine.tipo === 'Sondaggi') {
+      marker = L.marker([indagine.lat, indagine.lng], { icon: iconSondaggi });
+    } else if (indagine.tipo === 'Down Hole') {
+      marker = L.marker([indagine.lat, indagine.lng], { icon: iconDownHole });
+    } else if (indagine.tipo === 'HVSR') {
+      marker = L.marker([indagine.lat, indagine.lng], { icon: iconHVSR });
+    } else {
+      marker = L.circleMarker([indagine.lat, indagine.lng], {
+        radius: 6,
+        color: '#666666',
+        fillColor: '#666666',
+        fillOpacity: 0.9,
+        weight: 2
+      });
+    }
+
+    marker.bindPopup(`<strong>${indagine.nome}</strong><br>${indagine.tipo}`);
+    layerGroup.addLayer(marker);
+  }
+
+  function drawLine(indagine, layerGroup) {
+    let style = {
+      color: '#666666',
+      weight: 3
+    };
+
+    if (indagine.tipo === 'MASW') {
+      style = {
         color: '#000000',
         weight: 4
       };
     }
 
-    if (tipo === 'Rifrazione') {
-      return {
+    if (indagine.tipo === 'Rifrazione') {
+      style = {
         color: '#c62828',
         weight: 3,
         dashArray: '6,4'
       };
     }
 
-    return {
-      color: '#666666',
-      weight: 3
-    };
+    const line = L.polyline(indagine.coords, style);
+    line.bindPopup(`<strong>${indagine.nome}</strong><br>${indagine.tipo}`);
+    layerGroup.addLayer(line);
   }
 
-  function getLineLabel(tipo) {
-    if (tipo === 'MASW') return 'MW';
-    if (tipo === 'Rifrazione') return 'SR';
-    return '';
-  }
+  function drawIndagini(layerGroup) {
+    if (!Array.isArray(data.indagini)) return;
 
-  function createLineLabel(latlng, text, color) {
-    return L.marker(latlng, {
-      interactive: false,
-      icon: L.divIcon({
-        className: 'line-label-icon',
-        html: `<div style="
-          background:#ffffff;
-          border:1px solid #222;
-          border-radius:3px;
-          padding:1px 4px;
-          font-size:12px;
-          font-weight:700;
-          color:${color};
-          line-height:1;
-          white-space:nowrap;
-        ">${text}</div>`,
-        iconSize: [28, 18],
-        iconAnchor: [14, 9]
-      })
+    data.indagini.forEach((indagine) => {
+      if (Array.isArray(indagine.coords)) {
+        drawLine(indagine, layerGroup);
+      } else if (
+        typeof indagine.lat === 'number' &&
+        typeof indagine.lng === 'number'
+      ) {
+        drawPoint(indagine, layerGroup);
+      }
     });
-  }
-
-  function getMidPoint(coords) {
-    const midIndex = Math.floor(coords.length / 2);
-    return coords[midIndex];
-  }
-
-  function drawIndagine(indagine, layerGroup) {
-    if (indagine.coords && Array.isArray(indagine.coords)) {
-      const style = getLineStyle(indagine.tipo);
-      const line = L.polyline(indagine.coords, style)
-        .bindPopup(`<strong>${indagine.nome}</strong><br>${indagine.tipo}`);
-      layerGroup.addLayer(line);
-
-      const labelText = getLineLabel(indagine.tipo);
-      if (labelText) {
-        const mid = getMidPoint(indagine.coords);
-        const label = createLineLabel(mid, labelText, indagine.tipo === 'MASW' ? '#c62828' : '#c62828');
-        layerGroup.addLayer(label);
-      }
-      return;
-    }
-
-    if (typeof indagine.lat === 'number' && typeof indagine.lng === 'number') {
-      let marker;
-
-      if (indagine.tipo === 'Sondaggi') {
-        marker = L.marker([indagine.lat, indagine.lng], { icon: iconSondaggi });
-      } else if (indagine.tipo === 'Down Hole') {
-        marker = L.marker([indagine.lat, indagine.lng], { icon: iconDownHole });
-      } else if (indagine.tipo === 'HVSR') {
-        marker = L.marker([indagine.lat, indagine.lng], { icon: iconHVSR });
-      } else {
-        marker = L.circleMarker([indagine.lat, indagine.lng], {
-          radius: 6,
-          color: '#666666',
-          fillColor: '#666666',
-          fillOpacity: 0.9,
-          weight: 2
-        });
-      }
-
-      marker.bindPopup(`<strong>${indagine.nome}</strong><br>${indagine.tipo}`);
-      layerGroup.addLayer(marker);
-    }
   }
 
   fetch(jsonFile)
@@ -228,17 +195,26 @@
       }).addTo(map);
 
       const indaginiLayer = L.layerGroup().addTo(map);
-      if (Array.isArray(data.indagini)) {
-        data.indagini.forEach(indagine => drawIndagine(indagine, indaginiLayer));
-      }
+      drawIndagini(indaginiLayer);
 
-      const boundsGroup = L.featureGroup([geoLayer, indaginiLayer]);
-      map.fitBounds(boundsGroup.getBounds(), { padding: [20, 20] });
+      try {
+        const boundsGroup = L.featureGroup([geoLayer, indaginiLayer]);
+        if (boundsGroup.getBounds().isValid()) {
+          map.fitBounds(boundsGroup.getBounds(), { padding: [20, 20] });
+        } else if (geoLayer.getBounds().isValid()) {
+          map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
+        } else {
+          map.setView(data.center, 11);
+        }
+      } catch (e) {
+        map.setView(data.center, 11);
+      }
 
       createOpacityControl();
     })
     .catch(err => {
       console.error('Errore caricamento GeoJSON:', err);
+      map.setView(data.center, 11);
     });
 
   const colors = [
@@ -306,10 +282,8 @@
           <input type="range" min="0" max="1" step="0.05" value="0.7" id="opacitySliderLotto">
         </div>
       `;
-
       L.DomEvent.disableClickPropagation(div);
       L.DomEvent.disableScrollPropagation(div);
-
       return div;
     };
 
