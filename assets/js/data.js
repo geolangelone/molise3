@@ -44,6 +44,29 @@ window.siteData = {
       comuni: [
         { name: 'Campobasso', progress: 82, coords: [41.56, 14.67] },
         { name: 'Ripalimosani', progress: 67, coords: [41.61, 14.66] }
+      ],
+      indagini: [
+        { tipo: 'Sondaggi', nome: 'S1', lat: 41.56, lng: 14.67 },
+        { tipo: 'Down Hole', nome: 'DH1', lat: 41.61, lng: 14.66 },
+        { tipo: 'HVSR', nome: 'HVSR1', lat: 41.58, lng: 14.65 },
+        {
+          tipo: 'MASW',
+          nome: 'MASW1',
+          coords: [
+            [41.55, 14.64],
+            [41.56, 14.66],
+            [41.57, 14.68]
+          ]
+        },
+        {
+          tipo: 'Rifrazione',
+          nome: 'SR1',
+          coords: [
+            [41.60, 14.62],
+            [41.61, 14.64],
+            [41.62, 14.66]
+          ]
+        }
       ]
     },
 
@@ -96,6 +119,29 @@ window.siteData = {
         { name: 'San Martino in Pensilis', progress: 49, coords: [41.87, 14.92] },
         { name: 'Termoli', progress: 78, coords: [41.99, 14.99] },
         { name: 'Ururi', progress: 43, coords: [41.82, 15.03] }
+      ],
+      indagini: [
+        { tipo: 'Sondaggi', nome: 'S2-1', lat: 41.96, lng: 15.04 },
+        { tipo: 'Down Hole', nome: 'DH2-1', lat: 41.91, lng: 14.91 },
+        { tipo: 'HVSR', nome: 'HVSR2-1', lat: 41.87, lng: 14.92 },
+        {
+          tipo: 'MASW',
+          nome: 'MASW2-1',
+          coords: [
+            [41.90, 14.88],
+            [41.92, 14.93],
+            [41.95, 14.98]
+          ]
+        },
+        {
+          tipo: 'Rifrazione',
+          nome: 'SR2-1',
+          coords: [
+            [41.82, 14.96],
+            [41.86, 14.99],
+            [41.90, 15.03]
+          ]
+        }
       ]
     },
 
@@ -149,6 +195,29 @@ window.siteData = {
         { name: 'Scapoli', progress: 44, coords: [41.61, 14.06] },
         { name: 'Sesto Campano', progress: 57, coords: [41.42, 14.07] },
         { name: 'Venafro', progress: 84, coords: [41.49, 14.05] }
+      ],
+      indagini: [
+        { tipo: 'Sondaggi', nome: 'S3-1', lat: 41.60, lng: 14.10 },
+        { tipo: 'Down Hole', nome: 'DH3-1', lat: 41.55, lng: 14.14 },
+        { tipo: 'HVSR', nome: 'HVSR3-1', lat: 41.49, lng: 14.05 },
+        {
+          tipo: 'MASW',
+          nome: 'MASW3-1',
+          coords: [
+            [41.52, 14.08],
+            [41.56, 14.12],
+            [41.60, 14.16]
+          ]
+        },
+        {
+          tipo: 'Rifrazione',
+          nome: 'SR3-1',
+          coords: [
+            [41.46, 14.02],
+            [41.50, 14.06],
+            [41.54, 14.10]
+          ]
+        }
       ]
     }
   }
