@@ -624,3 +624,41 @@ main {
     font-size: 0.95rem;
   }
 }
+.home-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.home-logo-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.home-logo-title h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 2.1rem;
+}
+
+.home-logo-title .subtitle {
+  margin: 6px 0 0;
+}
+
+@media (max-width: 768px) {
+  .home-brand {
+    flex-wrap: wrap;
+  }
+
+  .home-logo-title {
+    margin-left: 0;
+    flex-wrap: wrap;
+  }
+
+  .home-logo-title h1 {
+    font-size: 1.5rem;
+  }
+}
