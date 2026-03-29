@@ -3,6 +3,8 @@
     zoomControl: true
   }).setView([41.7, 14.7], 9);
 
+  let moliseLayer;
+
   map.createPane('paneMolise');
   map.getPane('paneMolise').style.zIndex = 400;
 
@@ -45,43 +47,22 @@
   fetch('assets/data/molise.json')
     .then(res => res.json())
     .then(moliseData => {
-      let moliseLayer;
-
-fetch('assets/data/molise.json')
-  .then(res => res.json())
-  .then(moliseData => {
-
-    moliseLayer = L.geoJSON(moliseData, {
-      pane: 'paneMolise',
-      style: function () {
-        return {
-          color: '#bfbfbf',
-          weight: 1,
-          fillColor: '#eeeeee',
-          fillOpacity: 0.5
-        };
-      },
-      interactive: false
-    }).addTo(map);
-
-    map.fitBounds(moliseLayer.getBounds(), { padding: [20, 20] });
-
-    createOpacityControl();
-
-  });
+      moliseLayer = L.geoJSON(moliseData, {
         pane: 'paneMolise',
         style: function () {
           return {
             color: '#bfbfbf',
             weight: 1,
             fillColor: '#eeeeee',
-            fillOpacity: 0.85
+            fillOpacity: 0.5
           };
         },
         interactive: false
       }).addTo(map);
 
       map.fitBounds(moliseLayer.getBounds(), { padding: [20, 20] });
+
+      createOpacityControl();
     })
     .catch(err => {
       console.error('Errore caricamento molise.json:', err);
@@ -148,4 +129,37 @@ fetch('assets/data/molise.json')
     .catch(err => {
       console.error('Errore caricamento lotti_home.json:', err);
     });
+
+  function createOpacityControl() {
+    const control = L.control({ position: 'bottomleft' });
+
+    control.onAdd = function () {
+      const div = L.DomUtil.create('div', 'opacity-control');
+      div.innerHTML = `
+        <div style="background:white;padding:8px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+          <label style="font-size:12px;">Trasparenza Molise</label><br>
+          <input type="range" min="0" max="1" step="0.05" value="0.5" id="opacitySlider">
+        </div>
+      `;
+
+      L.DomEvent.disableClickPropagation(div);
+      L.DomEvent.disableScrollPropagation(div);
+
+      return div;
+    };
+
+    control.addTo(map);
+
+    setTimeout(() => {
+      const slider = document.getElementById('opacitySlider');
+      if (!slider || !moliseLayer) return;
+
+      slider.addEventListener('input', function () {
+        const val = parseFloat(this.value);
+        moliseLayer.setStyle({
+          fillOpacity: val
+        });
+      });
+    }, 200);
+  }
 })();
