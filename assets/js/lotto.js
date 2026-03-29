@@ -180,6 +180,22 @@
         }
       }).addTo(map);
 
+geoLayer.eachLayer(function (layer) {
+  layer.on('click', function (e) {
+    if (!pickingPoint) return;
+
+    L.DomEvent.stop(e); // blocca il click del poligono
+
+    latEl.value = e.latlng.lat.toFixed(6);
+    lngEl.value = e.latlng.lng.toFixed(6);
+
+    pickingPoint = false;
+    pickBtn.textContent = 'Scegli con click';
+    map.getContainer().style.cursor = '';
+  });
+});
+
+      
       redrawSavedPoints();
 
       const boundsGroup = L.featureGroup([geoLayer, indaginiLayer]);
