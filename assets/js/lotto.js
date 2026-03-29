@@ -120,8 +120,20 @@
     .catch(err => {
       console.error('Errore caricamento GeoJSON:', err);
     });
-
-  const colors = ['#174e8c', '#31a3dd', '#2e7d32', '#ef6c00', '#7b1fa2', '#c62828'];
+const colors = [
+  '#174e8c',
+  '#31a3dd',
+  '#2e7d32',
+  '#ef6c00',
+  '#7b1fa2',
+  '#c62828',
+  '#6a9bd1',
+  '#3f51b5',
+  '#009688',
+  '#8bc34a',
+  '#ff9800',
+  '#795548'
+];
   const ctx = document.getElementById('progressChart');
 
   new Chart(ctx, {
