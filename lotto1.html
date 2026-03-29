@@ -48,6 +48,39 @@
           <span class="eyebrow">Programmazione</span>
           <h2>Indagini programmate</h2>
         </div>
+
+<section class="panel">
+  <div class="panel-head">
+    <span class="eyebrow">Inserimento</span>
+    <h2>Nuova indagine</h2>
+  </div>
+
+  <div class="input-form">
+    <label for="indagineTipo">Tipo</label>
+    <select id="indagineTipo">
+      <option value="Sondaggi">Sondaggi</option>
+      <option value="Down Hole">Down Hole</option>
+      <option value="HVSR">HVSR</option>
+    </select>
+
+    <label for="indagineNome">Nome</label>
+    <input type="text" id="indagineNome" placeholder="Es. S1">
+
+    <label for="indagineLat">Latitudine</label>
+    <input type="number" step="any" id="indagineLat" placeholder="41.5600">
+
+    <label for="indagineLng">Longitudine</label>
+    <input type="number" step="any" id="indagineLng" placeholder="14.6700">
+
+    <div class="input-actions">
+      <button type="button" id="pickPointBtn">Scegli con click</button>
+      <button type="button" id="savePointBtn">Salva punto</button>
+    </div>
+
+    <p class="input-note">Con “Scegli con click” clicca sulla mappa per compilare automaticamente le coordinate.</p>
+  </div>
+</section>
+        
         <ul id="plannedInvestigations" class="planned-list"></ul>
       </section>
     </aside>
