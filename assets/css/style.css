@@ -857,3 +857,61 @@ main {
 .picking-point .leaflet-interactive {
   cursor: crosshair !important;
 }
+.startup-nag {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #d9ecff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.nag-content {
+  text-align: center;
+  max-width: 900px;
+  padding: 20px;
+}
+
+.nag-logo-main {
+  max-width: 260px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.nag-logo-sub {
+  max-width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.nag-text p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+.nag-text h3 {
+  margin: 8px 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.nag-text h2 {
+  margin: 12px 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+#closeNag {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  background: #174e8c;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
