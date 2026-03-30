@@ -144,11 +144,19 @@
 
 
 <script>
-  document.getElementById('closeNag').addEventListener('click', function () {
-    document.getElementById('startupNag').style.display = 'none';
-  });
-</script>
+  const nag = document.getElementById('startupNag');
+  const closeBtn = document.getElementById('closeNag');
 
+  if (closeBtn && nag) {
+    closeBtn.addEventListener('click', function () {
+      nag.style.transition = 'opacity 0.3s ease';
+      nag.style.opacity = '0';
+      setTimeout(function () {
+        nag.style.display = 'none';
+      }, 300);
+    });
+  }
+</script>
 
 
     
