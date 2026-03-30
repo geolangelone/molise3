@@ -4,23 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portale Monitoraggio MoliSe3.0</title>
+
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-  <link rel="stylesheet" href="assets/css/style.css">
+
+  <link rel="stylesheet" href="assets/css/style.css?v=10">
 </head>
 
+<body>
 
-
-<body data-lotto="site-header">
-  <body>
-
+<!-- 🔵 NAG -->
 <div id="startupNag" class="startup-nag">
   <div class="nag-content">
 
     <img src="assets/images/DMConsulting1.png" class="nag-logo-main" alt="DM Consulting">
-
     <img src="assets/images/logomolise.png" class="nag-logo-sub" alt="Regione Molise">
 
     <div class="nag-text">
@@ -41,11 +41,11 @@
       </p>
 
       <p class="nag-desc">
-        La piattaforma consente la consultazione strutturata dei dati, la localizzazione cartografica delle indagini e la verifica delle percentuali di avanzamento, rappresentando un supporto digitale al controllo tecnico-amministrativo delle lavorazioni.
+        La piattaforma consente la consultazione strutturata dei dati, la localizzazione cartografica delle indagini e la verifica delle percentuali di avanzamento.
       </p>
 
       <p class="nag-desc">
-        Si precisa che il presente ambiente costituisce una versione dimostrativa (demo): in caso di affidamento dell’incarico, il sistema sarà ulteriormente sviluppato e implementato con funzionalità avanzate, tra cui la gestione documentale completa, l’integrazione con database strutturati e strumenti evoluti di reportistica e monitoraggio.
+        Versione dimostrativa (demo): in caso di affidamento sarà implementata con funzionalità avanzate.
       </p>
     </div>
 
@@ -53,92 +53,80 @@
 
   </div>
 </div>
-</div>
- 
-  <nav class="main-nav">
-    <a href="index.html" class="active">Home</a>
-    <a href="lotto1.html">Lotto 1</a>
-    <a href="lotto2.html">Lotto 2</a>
-    <a href="lotto3.html">Lotto 3</a>
-    <a href="download.html">Download</a>
-  </nav>
-</header>
 
-  <main>
-    <section class="hero-section">
+<!-- 🔵 NAV -->
+<nav class="main-nav">
+  <a href="index.html" class="active">Home</a>
+  <a href="lotto1.html">Lotto 1</a>
+  <a href="lotto2.html">Lotto 2</a>
+  <a href="lotto3.html">Lotto 3</a>
+  <a href="download.html">Download</a>
+</nav>
+
+<!-- 🔵 CONTENUTO -->
+<main>
+
+  <section class="hero-section">
+    <div>
+      <span class="eyebrow">Dashboard territoriale</span>
+      <h2>Seleziona un lotto direttamente dalla carta</h2>
+
+      <p>
+        Il portale è dimostrativo e illustra una metodologia per ottimizzare i processi di studio,
+        elaborazione e archiviazione dati. Ogni lotto ha una pagina dedicata con mappa,
+        indagini e stato avanzamento.
+      </p>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-metric">
+        <span>Comuni monitorati</span>
+        <strong>20</strong>
+      </div>
+
+      <div class="hero-metric">
+        <span>Indagini censite</span>
+        <strong>86</strong>
+      </div>
+
+      <div class="hero-metric">
+        <span>Avanzamento medio</span>
+        <strong>61%</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-card">
+    <div class="section-head">
       <div>
-        <span class="eyebrow">Dashboard territoriale</span>
-        <h2>Seleziona un lotto direttamente dalla carta</h2>
-        <p>
-          Il portale web è solo dimostrativo, finalizzato ad illustrare una proposta metodologia volta ad ottimizzare tutti i processi di studio, elaborazione e archiviazione dei dati. 
-          La home mostra una carta interattiva con le tre aree cliccabili corrispondente ad ogni lotto oggetto di affidamento. Ogni lotto apre una pagina dedicata con
-          dettaglio delle indagini disponibili, attività programmate, mappa di sintesi e stato avanzamento lavori per Comune. 
-        </p>
+        <span class="eyebrow">Carta generale</span>
+        <h3>Lotti territoriali</h3>
       </div>
-      <div class="hero-card">
-        <div class="hero-metric">
-          <span>Comuni monitorati</span>
-          <strong>20</strong>
-        </div>
-        <div class="hero-metric">
-          <span>Indagini censite</span>
-          <strong>86</strong>
-        </div>
-        <div class="hero-metric">
-          <span>Avanzamento medio</span>
-          <strong>61%</strong>
-        </div>
-      </div>
-    </section>
+      <p class="section-note">Clicca su un lotto</p>
+    </div>
 
-    <section class="content-card">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Carta generale</span>
-          <h3>Lotti territoriali</h3>
-        </div>
-        <p class="section-note">Clicca su un poligono oppure usa i pulsanti rapidi sotto la mappa.</p>
-      </div>
-      <div id="homeMap" class="map-home"></div>
-      <div class="lot-buttons">
-        <a class="lot-chip lot-1" href="lotto1.html">Apri Lotto 1</a>
-        <a class="lot-chip lot-2" href="lotto2.html">Apri Lotto 2</a>
-        <a class="lot-chip lot-3" href="lotto3.html">Apri Lotto 3</a>
-      </div>
-    </section>
+    <div id="homeMap" class="map-home"></div>
 
-    <section class="cards-grid three-cols">
-      <article class="mini-card">
-        <h4>Lotto 1</h4>
-        <p>Ambito centrale con prospezioni a rifrazione, down-hole e integrazioni geofisiche in aree di nuova programmazione.</p>
-        <a href="lotto1.html">Vai alla scheda</a>
-      </article>
-      <article class="mini-card">
-        <h4>Lotto 2</h4>
-        <p>Fascia orientale e costiera con forte componente di monitoraggio evolutivo, verifiche stratigrafiche e rilievi integrati.</p>
-        <a href="lotto2.html">Vai alla scheda</a>
-      </article>
-      <article class="mini-card">
-        <h4>Lotto 3</h4>
-        <p>Area collinare occidentale con prevalenza di sondaggi, MASW e HVSR in centri urbani e viabilità principale.</p>
-        </p>
-        <a href="lotto3.html">Vai alla scheda</a>
-      </article>
-    </section>
-  </main>
+    <div class="lot-buttons">
+      <a class="lot-chip lot-1" href="lotto1.html">Apri Lotto 1</a>
+      <a class="lot-chip lot-2" href="lotto2.html">Apri Lotto 2</a>
+      <a class="lot-chip lot-3" href="lotto3.html">Apri Lotto 3</a>
+    </div>
+  </section>
 
-  <footer class="site-footer">
-    <p>Template dimostrativo statico pronto per pubblicazione su GitHub Pages.</p>
-  </footer>
+</main>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/home.js"></script>
-  
-  </div>
-</div>
+<!-- 🔵 FOOTER -->
+<footer class="site-footer">
+  <p>Template dimostrativo per GitHub Pages</p>
+</footer>
 
+<!-- 🔵 SCRIPT -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script src="assets/js/data.js?v=10"></script>
+<script src="assets/js/home.js?v=10"></script>
 
 <script>
   const nag = document.getElementById('startupNag');
@@ -148,14 +136,12 @@
     closeBtn.addEventListener('click', function () {
       nag.style.transition = 'opacity 0.3s ease';
       nag.style.opacity = '0';
-      setTimeout(function () {
+      setTimeout(() => {
         nag.style.display = 'none';
       }, 300);
     });
   }
 </script>
 
-
-    
 </body>
 </html>
