@@ -133,15 +133,16 @@
   const closeBtn = document.getElementById('closeNag');
 
   if (closeBtn && nag) {
+    document.body.classList.add('nag-open');
+
     closeBtn.addEventListener('click', function () {
       nag.style.transition = 'opacity 0.3s ease';
       nag.style.opacity = '0';
       setTimeout(() => {
         nag.style.display = 'none';
+        document.body.classList.remove('nag-open');
       }, 300);
     });
   }
-</script>
-
-</body>
+</script></body>
 </html>
