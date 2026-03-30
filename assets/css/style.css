@@ -879,14 +879,14 @@ main {
 }
 
 .nag-logo-main {
-  max-width: 160px;
+  max-width: 220px;
   margin: 0 auto 10px;
   display: block;
 }
 
 .nag-logo-sub {
   max-width: 80px;
-  margin: 0 auto 15px;
+  margin: 20px auto 18px; /* 👈 questo crea spazio sopra */
   display: block;
 }
 
